@@ -1,4 +1,5 @@
 const { Client, GatewayIntentBits } = require('discord.js');
+const mongoose = require('mongoose');
 
 const client = new Client({
   intents: [
@@ -7,6 +8,10 @@ const client = new Client({
     GatewayIntentBits.MessageContent
   ]
 });
+
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log('MongoDB Connected ✅'))
+.catch(err => console.log(err));
 
 client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag}`);
