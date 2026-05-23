@@ -1,3 +1,4 @@
+const { Client, GatewayIntentBits } = require('discord.js');
 const { joinVoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 
 const client = new Client({
@@ -16,25 +17,14 @@ client.once('ready', () => {
 client.on('messageCreate', async message => {
   if (message.author.bot) return;
 
-  // أمر Ping
+  // Ping
   if (message.content.toLowerCase() === '!ping') {
     return message.reply('pong 🏓');
   }
 
-  // أمر دخول الفويس
+  // Join Voice
   if (message.content.toLowerCase() === '!join') {
-if (message.content.toLowerCase() === '!leave') {
 
-  const connection = getVoiceConnection(message.guild.id);
-
-  if (!connection) {
-    return message.reply('أنا مو بالفويس 😭');
-  }
-
-  connection.destroy();
-
-  return message.reply( ' 😔🤘🏻.');
-}
     if (!message.member.voice.channel) {
       return message.reply('ادخل روم فويس أول 😭');
     }
@@ -46,6 +36,20 @@ if (message.content.toLowerCase() === '!leave') {
     });
 
     return message.reply('🎧.');
+  }
+
+  // Leave Voice
+  if (message.content.toLowerCase() === '!leave') {
+
+    const connection = getVoiceConnection(message.guild.id);
+
+    if (!connection) {
+      return message.reply('أنا مو بالفويس 😭');
+    }
+
+    connection.destroy();
+
+    return message.reply('😔🤘🏻.');
   }
 });
 
