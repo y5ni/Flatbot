@@ -10,8 +10,20 @@ const client = new Client({
   ]
 });
 
-client.once('ready', () => {
+client.once('ready', async () => {
   console.log(`Logged in as ${client.user.tag}`);
+
+  const channel = client.channels.cache.get('1492605081797923027');
+
+  if (!channel) return;
+
+  joinVoiceChannel({
+    channelId: channel.id,
+    guildId: channel.guild.id,
+    adapterCreator: channel.guild.voiceAdapterCreator
+  });
+
+  console.log('دخلت الفويس تلقائي 🎧');
 });
 
 client.on('messageCreate', async message => {
