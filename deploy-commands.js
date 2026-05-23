@@ -1,8 +1,7 @@
-require('dotenv').config();
-
 const { REST, Routes, SlashCommandBuilder } = require('discord.js');
 
 const commands = [
+
   new SlashCommandBuilder()
     .setName('ping')
     .setDescription('يرد البوت بكلمة pong'),
@@ -22,10 +21,13 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 (async () => {
   try {
 
-    console.log('بدأ تسجيل الأوامر ✨');
+    console.log('بدأ تسجيل أوامر السلاش ✨');
 
     await rest.put(
-      Routes.applicationCommands('1507138616114155520'),
+      Routes.applicationGuildCommands(
+        '1507138616114155520',
+        '1492204029118386423'
+      ),
       { body: commands }
     );
 
