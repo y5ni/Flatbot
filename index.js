@@ -1,11 +1,16 @@
-const { Client, GatewayIntentBits } = require('discord.js');
-const { joinVoiceChannel, getVoiceConnection } = require('@discordjs/voice');
+const {
+  Client,
+  GatewayIntentBits
+} = require('discord.js');
+
+const {
+  joinVoiceChannel,
+  getVoiceConnection
+} = require('@discordjs/voice');
 
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildVoiceStates
   ]
 });
@@ -26,42 +31,49 @@ client.once('ready', async () => {
   console.log('دخلت الفويس تلقائي 🎧');
 });
 
-client.on('messageCreate', async message => {
-  if (message.author.bot) return;
+client.on('interactionCreate', async interaction => {
 
-  // Ping
-  if (message.content.toLowerCase() === '!ping') {
-    return message.reply('pong 🏓');
+  if (!interaction.isChatInputCommand()) return;
+
+  // /ping
+  if (interaction.commandName === 'ping') {
+    return interaction.reply('pong 🏓');
   }
 
-  // Join Voice
-  if (message.content.toLowerCase() === '!join') {
+  // /join
+  if (interaction.commandName === 'join') {
 
-    if (!message.member.voice.channel) {
-      return message.reply('ادخل روم فويس أول 😭');
+    if (!interaction.member.voice.channel) {
+      return interaction.reply({
+        content: 'ادخل روم فويس أول 😭',
+        ephemeral: true
+      });
     }
 
     joinVoiceChannel({
-      channelId: message.member.voice.channel.id,
-      guildId: message.guild.id,
-      adapterCreator: message.guild.voiceAdapterCreator
+      channelId: interaction.member.voice.channel.id,
+      guildId: interaction.guild.id,
+      adapterCreator: interaction.guild.voiceAdapterCreator
     });
 
-    return message.reply('🎧.');
+    return interaction.reply('🎧.');
   }
 
-  // Leave Voice
-  if (message.content.toLowerCase() === '!leave') {
+  // /leave
+  if (interaction.commandName === 'leave') {
 
-    const connection = getVoiceConnection(message.guild.id);
+    const connection = getVoiceConnection(interaction.guild.id);
 
     if (!connection) {
-      return message.reply('أنا مو بالفويس 😭');
+      return interaction.reply({
+        content: 'أنا مو بالفويس 😭',
+        ephemeral: true
+      });
     }
 
     connection.destroy();
 
-    return message.reply('😔🤘🏻.');
+    return interaction.reply('😔🤘🏻');
   }
 });
 
