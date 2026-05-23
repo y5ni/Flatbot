@@ -11,11 +11,14 @@ const {
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildVoiceStates
   ]
 });
 
 client.once('ready', async () => {
+
   console.log(`Logged in as ${client.user.tag}`);
 
   try {
@@ -38,6 +41,7 @@ client.once('ready', async () => {
   } catch (error) {
     console.log(error);
   }
+
 });
 
 client.on('interactionCreate', async interaction => {
@@ -84,6 +88,7 @@ client.on('interactionCreate', async interaction => {
 
     return interaction.reply('😔🤘🏻');
   }
+
 });
 
 client.login(process.env.TOKEN);
