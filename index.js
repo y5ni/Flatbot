@@ -35,7 +35,7 @@ client.on('messageCreate', async message => {
       adapterCreator: message.guild.voiceAdapterCreator
     });
 
-    return message.reply('🎧');
+    return message.reply('🎧.');
   }
 });
 
