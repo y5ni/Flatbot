@@ -18,17 +18,26 @@ const client = new Client({
 client.once('ready', async () => {
   console.log(`Logged in as ${client.user.tag}`);
 
-  const channel = client.channels.cache.get('1492605081797923027');
+  try {
 
-  if (!channel) return;
+    const channel = await client.channels.fetch('1492605081797923027');
 
-  joinVoiceChannel({
-    channelId: channel.id,
-    guildId: channel.guild.id,
-    adapterCreator: channel.guild.voiceAdapterCreator
-  });
+    if (!channel) {
+      console.log('ما لقيت الروم الصوتي 💔');
+      return;
+    }
 
-  console.log('دخلت الفويس تلقائي 🎧');
+    joinVoiceChannel({
+      channelId: channel.id,
+      guildId: channel.guild.id,
+      adapterCreator: channel.guild.voiceAdapterCreator
+    });
+
+    console.log('دخلت الفويس تلقائي 🎧');
+
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 client.on('interactionCreate', async interaction => {
@@ -56,7 +65,7 @@ client.on('interactionCreate', async interaction => {
       adapterCreator: interaction.guild.voiceAdapterCreator
     });
 
-    return interaction.reply('🎧.');
+    return interaction.reply('🎧');
   }
 
   // /leave
