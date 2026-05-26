@@ -29,8 +29,17 @@ const rest = new REST({ version: '10' })
 
   try {
 
-    console.log('بدأ تسجيل أوامر السلاش...');
+    console.log('حذف الأوامر القديمة...');
 
+    // حذف أوامر GLOBAL القديمة
+    await rest.put(
+      Routes.applicationCommands(process.env.CLIENT_ID),
+      { body: [] }
+    );
+
+    console.log('تم حذف أوامر GLOBAL ✅');
+
+    // تسجيل أوامر السيرفر
     await rest.put(
       Routes.applicationGuildCommands(
         process.env.CLIENT_ID,
@@ -39,7 +48,7 @@ const rest = new REST({ version: '10' })
       { body: commands }
     );
 
-    console.log('تم تسجيل أوامر السلاش ✅');
+    console.log('تم تسجيل أوامر السيرفر ✅');
 
   } catch (error) {
     console.error(error);
