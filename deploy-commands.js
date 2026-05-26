@@ -1,48 +1,45 @@
+require('dotenv').config();
+
 const { REST, Routes, SlashCommandBuilder } = require('discord.js');
 
 const commands = [
 
   new SlashCommandBuilder()
     .setName('ping')
-    .setDescription('يرد البوت بكلمة pong'),
+    .setDescription('pong'),
 
   new SlashCommandBuilder()
     .setName('join')
-    .setDescription('يدخل البوت للفويس'),
+    .setDescription('دخول الفويس'),
 
   new SlashCommandBuilder()
     .setName('leave')
-    .setDescription('يطلع البوت من الفويس')
+    .setDescription('الخروج من الفويس'),
+
+  new SlashCommandBuilder()
+    .setName('rank')
+    .setDescription('عرض لفلك')
 
 ].map(command => command.toJSON());
 
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+const rest = new REST({ version: '10' })
+.setToken(process.env.TOKEN);
 
 (async () => {
+
   try {
 
-    console.log('تنظيف الأوامر القديمة 😼');
+    console.log('بدأ تسجيل أوامر السلاش...');
 
-    // حذف الأوامر العامة القديمة
     await rest.put(
-      Routes.applicationCommands('1507138616114155520'),
-      { body: [] }
-    );
-
-    console.log('تسجيل أوامر السيرفر ✨');
-
-    // تسجيل أوامر السيرفر فقط
-    await rest.put(
-      Routes.applicationGuildCommands(
-        '1507138616114155520',
-        '1492204029118386423'
-      ),
+      Routes.applicationCommands(process.env.CLIENT_ID),
       { body: commands }
     );
 
-    console.log('تم إصلاح أوامر السلاش 💥');
+    console.log('تم تسجيل أوامر السلاش ✅');
 
   } catch (error) {
     console.error(error);
   }
+
 })();
