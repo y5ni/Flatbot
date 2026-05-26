@@ -103,22 +103,19 @@ client.on('messageCreate', async message => {
       user.xp = 0;
 
       const levelEmbed = new EmbedBuilder()
-      .setColor('#000000')
-      .setDescription(`
-<a:emoji:1478553989338632396> <a:emoji:1478553989338632396> <a:emoji:1478553989338632396> <a:emoji:1478553989338632396> <a:emoji:1478553989338632396> <a:emoji:1478553989338632396> <a:emoji:1478553989338632396> <a:emoji:1478553989338632396> <a:emoji:1478553989338632396> <a:emoji:1478553989338632396>
+.setColor('#000000')
+.setDescription(`
+<a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895>
 
-- 𝑲𝒆𝒆𝒑 𝒈𝒐𝒊𝒏𝒈 𝒒𝒖𝒆𝒆𝒏 <a:1431350405111222426:1496637405803970610>
+- 𝑲𝒆𝒆𝒑 𝒈𝒐𝒊𝒏𝒈 𝒒𝒖𝒆𝒆<a:1431350405111222426:1508979875686645760>
 
-• 𝑵𝒆𝒘 𝒍𝒗𝒍 <a:0_arrowright:1496580935460847807> **${user.level}**
+• 𝑵𝒆𝒘 𝒍𝒗𝒍 <a:0_arrowright:1496580935460847807> : **${user.level}**
 `)
-      .setImage('https://cdn.discordapp.com/attachments/1475666807103815814/1508976137420669028/f3ffd67d81c167de3eaa34e45d9555b6.gif?ex=6a177f0a&is=6a162d8a&hm=52efe9e4280d6b9eb692621bf7435e3dccb4e658e5e12fa201f2750c387a6d01&')
-      .setThumbnail(
-        message.author.displayAvatarURL({ dynamic: true })
-      )
-      .setTimestamp();
-
-      const levelChannel = message.guild.channels.cache.get('1504878473058189472');
-
+.setImage('https://cdn.discordapp.com/attachments/1475666807103815814/1508976137420669028/f3ffd67d81c167de3eaa34e45d9555b6.gif?ex=6a177f0a&is=6a162d8a&hm=52efe9e4280d6b9eb692621bf7435e3dccb4e658e5e12fa201f2750c387a6d01&')
+.setThumbnail(
+  message.author.displayAvatarURL({ dynamic: true })
+)
+.setTimestamp();
       if (levelChannel) {
 
         levelChannel.send({
