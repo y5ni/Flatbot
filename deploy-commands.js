@@ -21,8 +21,17 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 (async () => {
   try {
 
-    console.log('بدأ تسجيل أوامر السلاش ✨');
+    console.log('تنظيف الأوامر القديمة 😼');
 
+    // حذف الأوامر العامة القديمة
+    await rest.put(
+      Routes.applicationCommands('1507138616114155520'),
+      { body: [] }
+    );
+
+    console.log('تسجيل أوامر السيرفر ✨');
+
+    // تسجيل أوامر السيرفر فقط
     await rest.put(
       Routes.applicationGuildCommands(
         '1507138616114155520',
@@ -31,7 +40,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
       { body: commands }
     );
 
-    console.log('تم تسجيل أوامر السلاش 😼');
+    console.log('تم إصلاح أوامر السلاش 💥');
 
   } catch (error) {
     console.error(error);
