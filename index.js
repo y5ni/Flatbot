@@ -1,6 +1,7 @@
 const {
   Client,
-  GatewayIntentBits
+  GatewayIntentBits,
+  EmbedBuilder
 } = require('discord.js');
 
 const {
@@ -101,9 +102,29 @@ client.on('messageCreate', async message => {
       user.level += 1;
       user.xp = 0;
 
-      message.channel.send(
-        `🎉 | ${message.author} لفلت إلى مستوى ${user.level}!`
-      );
+      const levelEmbed = new EmbedBuilder()
+      .setColor('#ff00ea')
+      .setTitle('🎉 Level Up!')
+      .setDescription(
+        `> ✨ مبروك ${message.author}\n> وصلت إلى لفل **${user.level}** 💥`
+      )
+      .setThumbnail(
+        message.author.displayAvatarURL({ dynamic: true })
+      )
+      .setFooter({
+        text: 'nightly leveling system 💢'
+      })
+      .setTimestamp();
+
+      const levelChannel = message.guild.channels.cache.get('1504878473058189472');
+
+      if (levelChannel) {
+
+        levelChannel.send({
+          embeds: [levelEmbed]
+        });
+
+      }
 
       console.log('لفل أب 🔥');
     }
