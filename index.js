@@ -62,6 +62,8 @@ client.once('ready', async () => {
 // XP SYSTEM
 client.on('messageCreate', async message => {
 
+  console.log(`${message.author.tag}: ${message.content}`);
+
   try {
 
     if (message.author.bot) return;
@@ -82,12 +84,15 @@ client.on('messageCreate', async message => {
         level: 1
       });
 
+      console.log('تم إنشاء مستخدم جديد 😼');
     }
 
     // إضافة XP
     user.xp += 10;
 
-    // XP المطلوب للفل التالي
+    console.log(`XP الحالي: ${user.xp}`);
+
+    // XP المطلوب
     const neededXP = user.level * 100;
 
     // Level Up
@@ -100,9 +105,12 @@ client.on('messageCreate', async message => {
         `🎉 | ${message.author} لفلت إلى مستوى ${user.level}!`
       );
 
+      console.log('لفل أب 🔥');
     }
 
     await user.save();
+
+    console.log('تم حفظ البيانات ✅');
 
   } catch (error) {
     console.log(error);
