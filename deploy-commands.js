@@ -1,26 +1,6 @@
 require('dotenv').config();
 
-const { REST, Routes, SlashCommandBuilder } = require('discord.js');
-
-const commands = [
-
-  new SlashCommandBuilder()
-    .setName('ping')
-    .setDescription('pong'),
-
-  new SlashCommandBuilder()
-    .setName('join')
-    .setDescription('دخول الفويس'),
-
-  new SlashCommandBuilder()
-    .setName('leave')
-    .setDescription('الخروج من الفويس'),
-
-  new SlashCommandBuilder()
-    .setName('rank')
-    .setDescription('عرض لفلك')
-
-].map(command => command.toJSON());
+const { REST, Routes } = require('discord.js');
 
 const rest = new REST({ version: '10' })
 .setToken(process.env.TOKEN);
@@ -29,26 +9,24 @@ const rest = new REST({ version: '10' })
 
   try {
 
-    console.log('حذف الأوامر القديمة...');
+    console.log('جاري حذف كل أوامر السلاش...');
 
-    // حذف أوامر GLOBAL القديمة
+    // حذف أوامر GLOBAL
     await rest.put(
       Routes.applicationCommands(process.env.CLIENT_ID),
       { body: [] }
     );
 
-    console.log('تم حذف أوامر GLOBAL ✅');
-
-    // تسجيل أوامر السيرفر
+    // حذف أوامر السيرفر
     await rest.put(
       Routes.applicationGuildCommands(
         process.env.CLIENT_ID,
         '1492204029118386423'
       ),
-      { body: commands }
+      { body: [] }
     );
 
-    console.log('تم تسجيل أوامر السيرفر ✅');
+    console.log('تم حذف كل الأوامر ✅');
 
   } catch (error) {
     console.error(error);
