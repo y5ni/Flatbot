@@ -59,46 +59,54 @@ client.once('ready', async () => {
 
 });
 
-// نظام XP
+// XP SYSTEM
 client.on('messageCreate', async message => {
 
-  if (message.author.bot) return;
+  try {
 
-  let user = await User.findOne({
-    userId: message.author.id,
-    guildId: message.guild.id
-  });
+    if (message.author.bot) return;
+    if (!message.guild) return;
 
-  if (!user) {
-
-    user = new User({
+    let user = await User.findOne({
       userId: message.author.id,
-      guildId: message.guild.id,
-      xp: 0,
-      level: 1
+      guildId: message.guild.id
     });
 
+    // إذا العضو جديد
+    if (!user) {
+
+      user = new User({
+        userId: message.author.id,
+        guildId: message.guild.id,
+        xp: 0,
+        level: 1
+      });
+
+    }
+
+    // إضافة XP
+    user.xp += 10;
+
+    // XP المطلوب للفل التالي
+    const neededXP = user.level * 100;
+
+    // Level Up
+    if (user.xp >= neededXP) {
+
+      user.level += 1;
+      user.xp = 0;
+
+      message.channel.send(
+        `🎉 | ${message.author} لفلت إلى مستوى ${user.level}!`
+      );
+
+    }
+
+    await user.save();
+
+  } catch (error) {
+    console.log(error);
   }
-
-  // زيادة XP
-  user.xp += 10;
-
-  // حساب اللفل المطلوب
-  const neededXP = user.level * 100;
-
-  // لفل أب
-  if (user.xp >= neededXP) {
-
-    user.level += 1;
-    user.xp = 0;
-
-    message.channel.send(
-      `🎉 | ${message.author} لفلت إلى مستوى ${user.level}!`
-    );
-
-  }
-
-  await user.save();
 
 });
 
