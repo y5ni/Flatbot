@@ -164,6 +164,31 @@ client.on('interactionCreate', async interaction => {
     return interaction.reply('😔🤘🏻');
   }
 
+  // /rank
+  if (interaction.commandName === 'rank') {
+
+    let user = await User.findOne({
+      userId: interaction.user.id,
+      guildId: interaction.guild.id
+    });
+
+    if (!user) {
+
+      return interaction.reply({
+        content: 'ماعندك XP للحين 😭',
+        ephemeral: true
+      });
+
+    }
+
+    const neededXP = user.level * 100;
+
+    return interaction.reply(
+      `🔥 لفلك: ${user.level}\n✨ XP: ${user.xp}/${neededXP}`
+    );
+
+  }
+
 });
 
 client.login(process.env.TOKEN);
