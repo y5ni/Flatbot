@@ -1,7 +1,6 @@
 const {
   Client,
-  GatewayIntentBits,
-  ActivityType
+  GatewayIntentBits
 } = require('discord.js');
 
 const {
@@ -23,14 +22,8 @@ client.once('ready', async () => {
   console.log(`Logged in as ${client.user.tag}`);
 
   // Status
-  client.user.setPresence({
-    activities: [
-      {
-        name: 'nightly 💢',
-        type: ActivityType.Watching
-      }
-    ],
-    status: 'online'
+  client.user.setActivity('nightly 💢', {
+    type: 3
   });
 
   try {
