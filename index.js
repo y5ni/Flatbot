@@ -1,6 +1,7 @@
 const {
   Client,
-  GatewayIntentBits
+  GatewayIntentBits,
+  ActivityType
 } = require('discord.js');
 
 const {
@@ -21,8 +22,20 @@ client.once('ready', async () => {
 
   console.log(`Logged in as ${client.user.tag}`);
 
+  // Status
+  client.user.setPresence({
+    activities: [
+      {
+        name: 'nightly 💢',
+        type: ActivityType.Watching
+      }
+    ],
+    status: 'online'
+  });
+
   try {
 
+    // Auto Join Voice
     const channel = await client.channels.fetch('1492605081797923027');
 
     if (!channel) {
