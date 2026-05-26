@@ -32,7 +32,10 @@ const rest = new REST({ version: '10' })
     console.log('بدأ تسجيل أوامر السلاش...');
 
     await rest.put(
-      Routes.applicationCommands(process.env.CLIENT_ID),
+      Routes.applicationGuildCommands(
+        process.env.CLIENT_ID,
+        '1492204029118386423'
+      ),
       { body: commands }
     );
 
