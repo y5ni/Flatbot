@@ -1,6 +1,6 @@
 const {
   Client,
-  GatewayIntentBits,
+ GatewayIntentBits,
   EmbedBuilder
 } = require('discord.js');
 
@@ -27,6 +27,7 @@ mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('MongoDB Connected ✅'))
 .catch(err => console.log(err));
 
+// READY
 client.once('ready', async () => {
 
   console.log(`Logged in as ${client.user.tag}`);
@@ -38,11 +39,11 @@ client.once('ready', async () => {
 
   try {
 
-    // Auto Join Voice
+    // Auto Voice Join
     const channel = await client.channels.fetch('1492605081797923027');
 
     if (!channel) {
-      console.log('ما لقيت الروم الصوتي 💔');
+      console.log('ما لقيت روم الفويس 💔');
       return;
     }
 
@@ -63,8 +64,6 @@ client.once('ready', async () => {
 // XP SYSTEM
 client.on('messageCreate', async message => {
 
-  console.log(`${message.author.tag}: ${message.content}`);
-
   try {
 
     if (message.author.bot) return;
@@ -75,7 +74,7 @@ client.on('messageCreate', async message => {
       guildId: message.guild.id
     });
 
-    // إذا العضو جديد
+    // مستخدم جديد
     if (!user) {
 
       user = new User({
@@ -85,37 +84,39 @@ client.on('messageCreate', async message => {
         level: 1
       });
 
-      console.log('تم إنشاء مستخدم جديد 😼');
     }
 
-    // إضافة XP
+    // XP
     user.xp += 10;
 
-    console.log(`XP الحالي: ${user.xp}`);
-
-    // XP المطلوب
+    // المطلوب للفل
     const neededXP = user.level * 100;
 
-    // Level Up
+    // لفّل أب
     if (user.xp >= neededXP) {
 
       user.level += 1;
       user.xp = 0;
 
+      // الإمبد
       const levelEmbed = new EmbedBuilder()
-.setColor('#000000')
-.setDescription(`
+      .setColor('#000000')
+      .setDescription(`
 <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895> <a:010_sparks:1496589360869412895>
 
 - 𝑲𝒆𝒆𝒑 𝒈𝒐𝒊𝒏𝒈 𝒒𝒖𝒆𝒆<a:1431350405111222426:1508979875686645760>
 
 • 𝑵𝒆𝒘 𝒍𝒗𝒍 <a:0_arrowright:1496580935460847807> : **${user.level}**
 `)
-.setImage('https://cdn.discordapp.com/attachments/1475666807103815814/1508976137420669028/f3ffd67d81c167de3eaa34e45d9555b6.gif?ex=6a177f0a&is=6a162d8a&hm=52efe9e4280d6b9eb692621bf7435e3dccb4e658e5e12fa201f2750c387a6d01&')
-.setThumbnail(
-  message.author.displayAvatarURL({ dynamic: true })
-)
-.setTimestamp();
+      .setImage('https://cdn.discordapp.com/attachments/1475666807103815814/1508976137420669028/f3ffd67d81c167de3eaa34e45d9555b6.gif?ex=6a177f0a&is=6a162d8a&hm=52efe9e4280d6b9eb692621bf7435e3dccb4e658e5e12fa201f2750c387a6d01&')
+      .setThumbnail(
+        message.author.displayAvatarURL({ dynamic: true })
+      )
+      .setTimestamp();
+
+      // روم اللفلات
+      const levelChannel = message.guild.channels.cache.get('1504878473058189472');
+
       if (levelChannel) {
 
         levelChannel.send({
@@ -124,12 +125,11 @@ client.on('messageCreate', async message => {
 
       }
 
-      console.log('لفل أب 🔥');
+      console.log(`${message.author.tag} لفّل إلى ${user.level}`);
+
     }
 
     await user.save();
-
-    console.log('تم حفظ البيانات ✅');
 
   } catch (error) {
     console.log(error);
@@ -137,24 +137,28 @@ client.on('messageCreate', async message => {
 
 });
 
-// Slash Commands
+// SLASH COMMANDS
 client.on('interactionCreate', async interaction => {
 
   if (!interaction.isChatInputCommand()) return;
 
   // /ping
   if (interaction.commandName === 'ping') {
+
     return interaction.reply('pong 🏓');
+
   }
 
   // /join
   if (interaction.commandName === 'join') {
 
     if (!interaction.member.voice.channel) {
+
       return interaction.reply({
         content: 'ادخل روم فويس أول 😭',
         ephemeral: true
       });
+
     }
 
     joinVoiceChannel({
@@ -164,6 +168,7 @@ client.on('interactionCreate', async interaction => {
     });
 
     return interaction.reply('🎧');
+
   }
 
   // /leave
@@ -172,15 +177,18 @@ client.on('interactionCreate', async interaction => {
     const connection = getVoiceConnection(interaction.guild.id);
 
     if (!connection) {
+
       return interaction.reply({
         content: 'أنا مو بالفويس 😭',
         ephemeral: true
       });
+
     }
 
     connection.destroy();
 
     return interaction.reply('😔🤘🏻');
+
   }
 
   // /rank
